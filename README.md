@@ -10,6 +10,19 @@ This project source code is managed by MAVEN and Spring Boot. So you can bring u
 1) run command "$ mvn spring-boot:run". Default servlet container is Jetty.
 2) run command "$mvn package" and then deploy to any application server.
 
+Then you can visit the application by sample URL "http://localhost:8080/simple_report.html"
+
+This is default application configuration by file /src/main/resources/app.properties
+```
+website.statistics.file.watch.source_folder=/tmp
+website.statistics.file.watch.polling_interval=
+website.statistics.file.watch.polling_max=
+
+website.statistics.file.watch.polling_crontab=0 * * * * *
+website.exclusion.watch.polling_crontab=0 0 * * * *
+website.exclusion.watch.endpoint=http://private-1de182-mamtrialrankingadjustments4.apiary-mock.com/exclusions
+```
+
 ## Getting Started
 ```
 Architecture
