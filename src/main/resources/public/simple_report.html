@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Code Challenge</title>
+
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<script src="/lib/angular.min.js"></script>
+<script src="/lib/Chart.min.js"></script>
+<script src="/lib/angular-chart.min.js"></script>
+<script src="/lib/angular-animate.min.js"></script>
+<script src="/lib/angular-touch.min.js"></script>
+<script src="/lib/angular-sanitize.js"></script>
+<script src="/lib/ui-bootstrap-tpls-2.5.0.js"></script>
+<body>
+<div ng-app="reportApp" ng-controller="reportCtrl">
+
+
+    <div class="row">
+        <div class="col-lg-6 col-sm-12 ng-scope" id="report-search-container">
+            <div class="panel panel-default">
+                <div class="panel-heading">Search Top Ranking Web Sites</div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-md-1">From: </div>
+                        <div class="col-md-6">
+                            <p class="input-group">
+                                <input id="reportSearchDateFrom" type="text" class="form-control" uib-datepicker-popup ng-model="fromDate" is-open="popup1.opened" datepicker-options="dateOptions" ng-required="false" close-text="Close" ng-change="changeFromDate()"/>
+                                <span class="input-group-btn">
+                                    <button type="button" class="btn btn-default" ng-click="open1()"><i class="glyphicon glyphicon-calendar"></i></button>
+                                </span>
+                            </p>
+                        </div>
+                        <div class="col-md-2 text-danger fade in" ng-show="fromDateInvalid">Invalid date</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-1">To: </div>
+                        <div class="col-md-6">
+                            <p class="input-group">
+                                <input id="reportSearchDateTo" type="text" class="form-control" uib-datepicker-popup ng-model="toDate" is-open="popup2.opened" datepicker-options="dateOptions" ng-required="false" close-text="Close" ng-change="changeToDate()"/>
+                                <span class="input-group-btn">
+                                    <button type="button" class="btn btn-default" ng-click="open2()"><i class="glyphicon glyphicon-calendar"></i></button>
+                                </span>
+                            </p>
+                        </div>
+                        <div class="col-md-2 text-danger fade in" ng-show="toDateInvalid">Invalid date</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-6 col-sm-12 ng-scope" id="report-pie-chart-container">
+            <div class="panel panel-default">
+                <div class="panel-heading">Top Ranking Web Sites</div>
+                <div class="panel-body"><iframe class="chartjs-hidden-iframe" tabindex="-1" style="width: 100%; display: block; border: 0px; height: 0px; margin: 0px; position: absolute; left: 0px; right: 0px; top: 0px; bottom: 0px;"></iframe>
+                    <canvas id="report-pie-chart" class="chart chart-pie chart-xs ng-isolate-scope" chart-data="report_chart_data" chart-labels="report_chart_labels" chart-options="report_chart_options" width="523" height="261" style="display: block; width: 523px; height: 261px;"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+</div>
+
+<script>
+        var app = angular.module('reportApp', ['chart.js', 'ui.bootstrap']);
+
+        app.controller('reportCtrl', ['$scope', '$http', '$filter', function($scope, $http, $filter) {
+            // init parameters
+            $scope.report_chart = {
+                labels : [],
+                data : []
+            };
+            $scope.report_chart_labels = [];
+            $scope.report_chart_data = [];
+            $scope.report_chart_options = {
+                legend: {
+                    display: true,
+                    position: 'top'
+                }
+            };
+
+            $scope.query = function(fromDate, toDate) {
+                $http.get('/api/websites/top', {params:{from: fromDate, to:toDate}})
+                .then(function successCallback(response) {
+                        $scope.reports = response.data;
+
+                        report_chart_labels = [];
+                        report_chart_data = [];
+                        angular.forEach(response.data, function(value, key) {
+                            report_chart_labels.push(value.host);
+                            report_chart_data.push(value.totalVisitCount);
+                        });
+                        $scope.report_chart_labels = report_chart_labels;
+                        $scope.report_chart_data = report_chart_data;
+                    }, function errorCallback(response) {
+                        // error handling
+                });
+            }
+
+            // date picker UI
+            $scope.fromDateInvalid = false;
+            $scope.toDateInvalid = false;
+
+            $scope.open1 = function() {
+                $scope.popup1.opened = true;
+            };
+
+            $scope.open2 = function() {
+                $scope.popup2.opened = true;
+            };
+
+            $scope.popup1 = {
+                opened: false
+            };
+
+            $scope.popup2 = {
+                opened: false
+            };
+
+            $scope.changeFromDate = function() {
+                if($scope.fromDate!=undefined && ($scope.toDate==undefined || $scope.fromDate<$scope.toDate)) {
+                    $scope.fromDateInvalid = false;
+                    $scope.changeDate();
+                }
+                else {
+                    $scope.fromDateInvalid = true;
+                }
+            }
+
+            $scope.changeToDate = function() {
+                if($scope.toDate!=undefined && ($scope.fromDate==undefined || $scope.fromDate<$scope.toDate)) {
+                    $scope.toDateInvalid = false;
+                    $scope.changeDate();
+                }
+                else {
+                    $scope.toDateInvalid = true;
+                }
+            }
+
+            $scope.changeDate = function() {
+                var fromDateStr = '';
+                var toDateStr = '';
+
+                if($scope.fromDate != undefined && $scope.toDate != undefined) {
+                    fromDateStr = $filter('date')($scope.fromDate,'yyyy-MM-dd');
+                    toDateStr = $filter('date')($scope.toDate,'yyyy-MM-dd');
+                    $scope.query(fromDateStr, toDateStr);
+                }
+            }
+        }]);
+
+    </script>
+</body>
+</html>
