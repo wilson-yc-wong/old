@@ -22,11 +22,15 @@ website.statistics.file.watch.polling_crontab=0 * * * * *
 website.exclusion.watch.polling_crontab=0 0 * * * *
 website.exclusion.watch.endpoint=http://private-1de182-mamtrialrankingadjustments4.apiary-mock.com/exclusions
 ```
+
 ## Deployment
 Application is deployed to AWS
 http://wilson-ranking-app.us-east-2.elasticbeanstalk.com/simple_report.html
 
-Some testing data has be setup for testing purpose
+To initialize Database for web site visit count. You can either upload CSV to config path (default is /tmp), or either trigger web endpoint
+http://wilson-ranking-app.us-east-2.elasticbeanstalk.com/api/websites/init
+
+Some data has be prepared for testing purpose
 ```
 date|file|visits
 2018-01-01|google.com|1
