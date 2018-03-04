@@ -29,7 +29,7 @@ public class WebSiteStatisticsFileIntegrationFlowTest {
         // prepare test data
         String rootPath = this.getClass().getResource("/").getFile();
         File template = new File(rootPath + "/statistics_data/test_case_proceedNewCsvFile.txt");
-        File testFile = new File(rootPath + "/statistics_data/test_case_proceedNewCsvFile.csv");
+        File testFile = new File(rootPath + "/statistics_data/db_init.csv");
         if(testFile.exists()) { testFile.delete(); }
         FileUtils.copyFile(template, testFile);
 

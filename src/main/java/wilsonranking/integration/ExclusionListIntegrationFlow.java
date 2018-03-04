@@ -41,8 +41,6 @@ public class ExclusionListIntegrationFlow {
     public IntegrationFlow httpInternalServiceFlow(@Value("${website.exclusion.watch.polling_crontab}") String pollingCrontab
         , @Value("${website.exclusion.watch.endpoint}") String restEndpoint) {
 
-        System.out.println("input cron is " + pollingCrontab);
-
         return IntegrationFlows.from(this::httpMessageSource,
             e -> e.poller(p -> p.cron(pollingCrontab)))
             .handle(Http.outboundGateway(restEndpoint)

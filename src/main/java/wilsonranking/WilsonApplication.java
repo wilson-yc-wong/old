@@ -1,5 +1,7 @@
 package wilsonranking;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.SpringBootConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -26,6 +28,8 @@ import javax.sql.DataSource;
 )
 
 public class WilsonApplication {
+    private static Logger logger = LoggerFactory.getLogger(WilsonApplication.class.getName());
+
     public static void main(String[] args) {
         SpringApplication.run(WilsonApplication.class, args);
     }

@@ -22,7 +22,6 @@ import wilsonranking.api.repository.WebSiteRepository;
 import wilsonranking.model.WebSite;
 
 import java.io.File;
-import java.net.URI;
 import java.nio.charset.StandardCharsets;
 import java.sql.Date;
 import java.time.LocalDate;
@@ -78,8 +77,9 @@ public class WebSiteStatisticsFileIntegrationFlow {
         File f = null;
         if(StringUtils.isNotBlank(fileSourceFolderPath)) {
             try {
-                f = new File(new URI(fileSourceFolderPath));
+                f = new File(fileSourceFolderPath);
             } catch (Exception e) {
+                logger.error("fail to watch config file path", e);
             }
         }
         if(f==null) {
