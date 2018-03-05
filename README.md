@@ -14,12 +14,11 @@ Then you can visit the application by sample URL "http://localhost:8080/simple_r
 
 This is default application configuration by file /src/main/resources/app.properties
 ```
-website.statistics.file.watch.source_folder=/tmp
-website.statistics.file.watch.polling_interval=
+website.statistics.file.watch.source_folder=/tmp/statistics_data
 website.statistics.file.watch.polling_max=
-
 website.statistics.file.watch.polling_crontab=0 * * * * *
-website.exclusion.watch.polling_crontab=0 0 * * * *
+
+website.exclusion.watch.polling_crontab=0 */10 * * * *
 website.exclusion.watch.endpoint=http://private-1de182-mamtrialrankingadjustments4.apiary-mock.com/exclusions
 ```
 
@@ -44,8 +43,14 @@ date|file|visits
 2018-01-01|facebook.com|1000
 2016-03-13|google.com|1000
 ```
-
+## Running the tests
 For quick test purpose, please select date range '2018-01-01' and today() on UI.
+Here are few test cases
+1) Sum of visit counts of same host is reported in selected date range
+Pick date range 2018-01-01 and 2018-01-05, visit count of amazon becomes 5 (2 from 1/1, 3 from 1/4)
+2) Exclusion list is effective by not showing facebook.com (w/o excludedTill)
+3) Exclusion list is effective by not showing google.com (with both excludedSince and excludedTill)
+Pick date range 2018-03-11 and 2018-03-14. Nothing is shown because google.com is excluded in this period.
 
 ## Getting Started
 ```
@@ -64,20 +69,17 @@ Implemented functional requirements
   Spring integration flow polls web restful endpoint (by default every hour) and overwrite records into database
 ```
 ```
-Defact
-1) Web source integration is not working on AWS. But it is working fine on unittest and local environment. Shall get it fix soon.
-```
-```
 Implemented non-functional requirements
 1) Validation on restful request's parameter. Requested parameter must be in Date format "yyyy-MM-dd"
-2) Authentication protecting web and restful ws. Permitted user accoutn is "user/password".
-3) Unit-test is covered
+2) Authentication protects web and restful ws. Permitted user accoutn is "user/password" and "admin/password"
+3) Authorization protects admin function.
+4) Administration/support feature support prepared CSV submission. It help AWS to load pre-defined data
+5) Unit-test is covered
 ```
 ```
 Unimplemented non-functional requirements
 1) Unexpected error handling, eg. connection fail
 2) Administration/Support feature for configuration, data file upload.
-3) Authorization of admin/support features
-4) Automated integration test
-5) Audit logging
+3) Automated integration test
+4) Audit logging
 ```
