@@ -45,6 +45,8 @@ date|file|visits
 2016-03-13|google.com|1000
 ```
 
+For quick test purpose, please select date range '2018-01-01' and today() on UI.
+
 ## Getting Started
 ```
 Architecture
@@ -55,9 +57,15 @@ Memory Database H2 is configurated for testing purpose.
 ```
 ```
 Implemented functional requirements
-1) Interactive UI is provided to query ranking.
+1) Interactive UI provides query of top 5 web sites ranking.
 2) Source web site visits data file by configured path
+  Spring integration flow polls CSV file (by default is folder /tmp) and save web site visit count statistics into database
 3) Source web site exclusioin list from configured web endpoint
+  Spring integration flow polls web restful endpoint (by default every hour) and overwrite records into database
+```
+```
+Defact
+1) Web source integration is not working on AWS. But it is working fine on unittest and local environment. Shall get it fix soon.
 ```
 ```
 Implemented non-functional requirements
@@ -69,7 +77,7 @@ Implemented non-functional requirements
 Unimplemented non-functional requirements
 1) Unexpected error handling, eg. connection fail
 2) Administration/Support feature for configuration, data file upload.
-3) Authorization
+3) Authorization of admin/support features
 4) Automated integration test
 5) Audit logging
 ```
