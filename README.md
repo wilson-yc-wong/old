@@ -45,6 +45,8 @@ date|file|visits
 2016-03-13|google.com|1000
 ```
 
+For quick test purpose, please select date range '2018-01-01' and today() on UI.
+
 ## Getting Started
 ```
 Architecture
@@ -63,7 +65,7 @@ Implemented functional requirements
 ```
 ```
 Defact
-1) Web source integration is not working on AWS. Shall get it fix soon.
+1) Web source integration is not working on AWS. But it is working fine on unittest and local environment. Shall get it fix soon.
 ```
 ```
 Implemented non-functional requirements
