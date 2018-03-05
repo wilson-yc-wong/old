@@ -8,7 +8,7 @@ JDK8
 ### Installing
 This project source code is managed by MAVEN and Spring Boot. So you can bring up web application by 
 1) run command "$ mvn spring-boot:run". Default servlet container is Jetty.
-2) run command "$mvn package" and then deploy to any application server.
+2) run command "$mvn package", maven will produce war file and then deploy to any application server.
 
 Then you can visit the application by sample URL "http://localhost:8080/simple_report.html"
 
@@ -26,10 +26,10 @@ website.exclusion.watch.endpoint=http://private-1de182-mamtrialrankingadjustment
 Application is deployed to AWS
 http://wilson-ranking-app.us-east-2.elasticbeanstalk.com/simple_report.html
 
-To initialize Database for web site visit count. You can either upload CSV to config path (default is /tmp), or either trigger web endpoint
+To initialize Database for web site visit count. You can either upload CSV to config path (default is /tmp/statistics_data), or either trigger web endpoint to submit pre-defined data
 http://wilson-ranking-app.us-east-2.elasticbeanstalk.com/api/websites/init
 
-Some data has be prepared for testing purpose
+Some data has been prepared for testing purpose
 ```
 date|file|visits
 2018-01-01|google.com|1
@@ -43,6 +43,7 @@ date|file|visits
 2018-01-01|facebook.com|1000
 2016-03-13|google.com|1000
 ```
+
 ## Running the tests
 For quick test purpose, please select date range '2018-01-01' and today() on UI.
 Here are few test cases
