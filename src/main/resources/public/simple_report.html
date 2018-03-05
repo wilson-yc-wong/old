@@ -88,14 +88,14 @@
                 .then(function successCallback(response) {
                         $scope.reports = response.data;
 
-                        report_chart_labels = [];
-                        report_chart_data = [];
+                        labels = [];
+                        data = [];
                         angular.forEach(response.data, function(value, key) {
-                            report_chart_labels.push(value.host);
-                            report_chart_data.push(value.totalVisitCount);
+                            labels.push(value.host);
+                            data.push(value.totalVisitCount);
                         });
-                        $scope.report_chart_labels = report_chart_labels;
-                        $scope.report_chart_data = report_chart_data;
+                        $scope.report_chart_labels = labels;
+                        $scope.report_chart_data = data;
                     }, function errorCallback(response) {
                         // error handling
                 });

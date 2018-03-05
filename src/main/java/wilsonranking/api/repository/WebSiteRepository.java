@@ -2,6 +2,7 @@ package wilsonranking.api.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.stereotype.Repository;
 import wilsonranking.model.Report;
 import wilsonranking.model.WebSite;
 
@@ -11,6 +12,7 @@ import java.util.List;
 /**
  * Created by chunwyc on 28/2/2018.
  */
+@Repository
 public interface WebSiteRepository extends JpaRepository<WebSite, Long> {
     @Query(value = "SELECT w.HOST, SUM(w.VISIT_COUNT) AS totalVisitCount FROM WEB_SITE w"
             + " LEFT JOIN EXCLUSION ex on (ex.ENABLE IS TRUE and ex.HOST = w.HOST"

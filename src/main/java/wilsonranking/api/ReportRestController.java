@@ -22,7 +22,7 @@ import java.util.List;
  * Created by chunwyc on 28/2/2018.
  */
 @RestController
-@RequestMapping("/api/websites")
+@RequestMapping("/api")
 public class ReportRestController {
 
     private static Logger logger = LoggerFactory.getLogger(ReportRestController.class.getName());
@@ -37,7 +37,7 @@ public class ReportRestController {
     @Autowired
     WebVisitCountService webVisitCountService;
 
-    @RequestMapping(value="/init", method = RequestMethod.GET)
+    @RequestMapping(value="/admin/init", method = RequestMethod.GET)
     public ResponseEntity<List<Report>> initDatabase() {
         // init DB
         try {
@@ -53,7 +53,7 @@ public class ReportRestController {
         return new ResponseEntity("init db successfully", HttpStatus.OK);
     }
 
-    @RequestMapping(value="/top", method = RequestMethod.GET)
+    @RequestMapping(value="/websites/top", method = RequestMethod.GET)
     public ResponseEntity<List<Report>> getTopCountHandler(@RequestParam("from") @DateTimeFormat(pattern="yyyy-MM-dd") final LocalDate from
             , @RequestParam("to") @DateTimeFormat(pattern="yyyy-MM-dd") final LocalDate to) {
 

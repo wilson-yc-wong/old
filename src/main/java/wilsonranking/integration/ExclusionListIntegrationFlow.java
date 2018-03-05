@@ -37,7 +37,7 @@ public class ExclusionListIntegrationFlow {
     @Autowired
     WebVisitCountService webVisitCountService;
 
-    @Bean
+    @Bean(name="exclusionListIntegrationFlowBean")
     public IntegrationFlow httpInternalServiceFlow(@Value("${website.exclusion.watch.polling_crontab}") String pollingCrontab
         , @Value("${website.exclusion.watch.endpoint}") String restEndpoint) {
 
@@ -52,6 +52,7 @@ public class ExclusionListIntegrationFlow {
             .get();
     }
 
+    @Bean(name="exclustionListMessageSourceBean")
     public MessageSource httpMessageSource() {
         return new MessageSource() {
             public Message<String> receive() {
@@ -61,6 +62,7 @@ public class ExclusionListIntegrationFlow {
         };
     }
 
+    @Bean(name="exclustionListDataHandlerBean")
     public MessageHandler dataHandler() {
         return new AbstractMessageHandler() {
             protected void handleMessageInternal(Message<?> message) throws MessagingException {
@@ -78,6 +80,7 @@ public class ExclusionListIntegrationFlow {
                     if(StringUtils.isNotBlank(exj.getExcludedTill())) {
                         ex.setExcludedTill(LocalDate.parse(exj.getExcludedTill(), dtf));
                     }
+                    exlist.add(ex);
                 }
                 webVisitCountService.setExclusion(exlist);
             }

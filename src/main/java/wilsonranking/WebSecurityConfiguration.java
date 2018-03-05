@@ -41,12 +41,13 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
         }
     };
 
-
-
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .anyRequest().authenticated()
+                .antMatchers("/api/admin/*").access("hasRole('ROLE_ADMIN')")
+                .antMatchers("/*").access("hasRole('ROLE_USER')")
+                .anyRequest()
+                .authenticated()
                 .and().httpBasic()
                 .authenticationEntryPoint(authEntryPoint);
     }
@@ -56,6 +57,8 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
         auth
             .inMemoryAuthentication()
             .passwordEncoder(NoOpPasswordEncoder.getInstance())
-            .withUser("user").password("password").roles("USER");
+            .withUser("user").password("password").roles("USER")
+            .and()
+            .withUser("admin").password("password").authorities("ROLE_USER","ROLE_ADMIN");
     }
 }
