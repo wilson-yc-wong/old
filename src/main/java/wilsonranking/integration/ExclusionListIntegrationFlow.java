@@ -52,7 +52,6 @@ public class ExclusionListIntegrationFlow {
             .get();
     }
 
-    @Bean
     public MessageSource httpMessageSource() {
         return new MessageSource() {
             public Message<String> receive() {
@@ -61,7 +60,7 @@ public class ExclusionListIntegrationFlow {
             }
         };
     }
-    @Bean
+
     public MessageHandler dataHandler() {
         return new AbstractMessageHandler() {
             protected void handleMessageInternal(Message<?> message) throws MessagingException {

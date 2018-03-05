@@ -27,8 +27,12 @@ public class ReportRestController {
 
     private static Logger logger = LoggerFactory.getLogger(ReportRestController.class.getName());
 
+
     @Value("${website.report.max:5}")
     int queryMax;
+
+    @Value("${website.statistics.file.watch.source_folder}")
+    String tempFolder;
 
     @Autowired
     WebVisitCountService webVisitCountService;
@@ -38,7 +42,7 @@ public class ReportRestController {
         // init DB
         try {
             File from = new File(WilsonApplication.class.getResource("/statistics_data/db_init.csv").getFile());
-            File to = new File("/tmp/db_init.csv");
+            File to = new File(tempFolder + "/db_init.csv");
             logger.info("try to init DB by cloning CSV");
             logger.info("sourcing file exist? " + from.exists());
             logger.info("destinating file exist? " + to.exists());
