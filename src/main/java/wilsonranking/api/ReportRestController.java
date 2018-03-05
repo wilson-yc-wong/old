@@ -1,6 +1,7 @@
 package wilsonranking.api;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,7 @@ import wilsonranking.api.service.WebVisitCountService;
 import wilsonranking.model.Report;
 
 import java.io.File;
+import java.net.URI;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -41,12 +43,11 @@ public class ReportRestController {
     public ResponseEntity<List<Report>> initDatabase() {
         // init DB
         try {
-            File from = new File(WilsonApplication.class.getResource("/statistics_data/db_init.csv").getFile());
+            URI from = WilsonApplication.class.getResource("/statistics_data/db_init.csv").toURI();
             File to = new File(tempFolder + "/db_init.csv");
             logger.info("try to init DB by cloning CSV");
-            logger.info("sourcing file exist? " + from.exists());
             logger.info("destinating file exist? " + to.exists());
-            FileUtils.copyFile(from, to);
+            FileUtils.writeByteArrayToFile(to, IOUtils.toByteArray(from));
             logger.info("destinating file exist after copy? " + to.exists());
         }
         catch(Exception e){ logger.error("fail to init DB by uploading CSV", e); }
